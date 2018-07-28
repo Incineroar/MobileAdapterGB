@@ -7,13 +7,15 @@ Code is super WIP, but to use it:
 2. Open mobilesystem.py with a text editor and edit the following:
 
 Line 123:
-```HTTP_HOST_IP = "127.0.0.1"
+```
+HTTP_HOST_IP = "127.0.0.1"
 HTTP_HOST_PORT = 80
 POP_HOST_IP = "127.0.0.1"
 POP_HOST_PORT = 110
 SMTP_HOST_IP = "127.0.0.1"
 SMTP_HOST_PORT = 25
-EMAIL_DOMAIN = b'xxxxxx.dion.ne.jp'```
+EMAIL_DOMAIN = b'xxxxxx.dion.ne.jp'
+```
 
 Change HTTP_HOST_IP to point to the web server you're connecting to.
 
