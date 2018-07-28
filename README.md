@@ -27,3 +27,8 @@ If you're having issues, it's still a WIP so don't worry too much on this, at le
 
 See this thread on Glitch City Forums for more information on the Mobile Adapter GB, including uses, tech info, and more!
 https://forums.glitchcity.info/index.php?topic=7509.0
+
+Notes:
+Future-proof this by adding the following to your Apache httpd.conf:
+```BrowserMatch (CGB-) force-response-1.0 downgrade-1.0```
+This will force Apache to serve Game Boy Color games with HTTP 1.0 instead of 1.1. This may also work with GBA by replacing CGB with AGB, but this needs further testing to be verified.
