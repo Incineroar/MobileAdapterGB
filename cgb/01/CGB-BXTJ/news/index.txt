@@ -1,4 +1,4 @@
-http://127.0.0.1/cgb/download?name=/01/CGB-BXTJ/news/metadata.bin
-http://127.0.0.1/cgb/upload?name=/01/CGB-BXTJ/news/10upload.cgi
-http://127.0.0.1/cgb/upload?name=/01/CGB-BXTJ/news/ranking.cgi
-http://127.0.0.1/cgb/download?name=/01/CGB-BXTJ/news/menu.cgb
+http://127.0.0.1/cgb/download?name=/01/CGB-BXTJ/news/0metadata.bin
+http://127.0.0.1/cgb/upload?name=/01/CGB-BXTJ/news/0upload.cgi
+http://127.0.0.1/cgb/upload?name=/01/CGB-BXTJ/news/0ranking.cgi
+http://127.0.0.1/cgb/download?name=/01/CGB-BXTJ/news/100menu.cgb

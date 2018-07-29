@@ -31,13 +31,14 @@
         if (file_exists($file))
         {
             #check if the file exists, and if so, serve it.
-            header('Content-Description: File Transfer');
-            header('Content-Type: application/octet-stream');
-            header('Content-Disposition: attachment; filename="'.basename($file).'"');
-            header('Expires: 0');
-            header('Cache-Control: must-revalidate');
-            header('Pragma: public');
-            header('Content-Length: ' . filesize($file));
+            #header('Content-Description: File Transfer');
+            #header('Content-Type: application/octet-stream');
+            #header('Content-Disposition: attachment; filename="'.basename($file).'"');
+            #header('Expires: 0');
+            #header('Cache-Control: must-revalidate');
+            #header('Pragma: public');
+            #header('Content-Length: ' . filesize($file));
+            header_remove();
             readfile($file);
             exit;
         }
