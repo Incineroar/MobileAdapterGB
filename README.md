@@ -5,12 +5,12 @@ Code is super WIP, but to use it:
 
 1. Drop the cgb folder and ALL OF ITS CONTENTS onto the root of a web server.
 2. Open mobilesystem.py with a text editor and edit the following:
-Line 124:
+Line 11:
 ```
 dns_server_replacement = {
-	#"gameboy.datacenter.ne.jp" : b'\x7F\x00\x00\x01', Change this to the IP address that your server is at, each set of numbers in hexadecimal format. In this one, it's 127.0.0.1
-	"mail.gbaa.dion.ne.jp" : b'\x7F\x00\x00\x01',
-	"pop.gbaa.dion.ne.jp" : b'\x7F\x00\x00\x01'
+	#"gameboy.datacenter.ne.jp" : '127.0.0.1', # Change this IP with the IP of your server
+	"mail.gbaa.dion.ne.jp" : b'127.0.0.1',
+	"pop.gbaa.dion.ne.jp" : b'127.0.0.1'
 }
 ```
 3. Open the Gameboy emulator BGB and open a compatible ROM (For the intents of this repo, Pocket Monsters Crystal (J) is supported currently, as well as the Mobile Trainer for setting up the emulated device), then right-click to get the menu, go to Link, then Listen
