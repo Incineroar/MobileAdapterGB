@@ -30,6 +30,6 @@ Future-proof this by adding the following to your Apache httpd.conf:
 This will force Apache to serve Game Boy Color games with HTTP 1.0 instead of 1.1. This may also work with GBA by replacing CGB with AGB, but this needs further testing to be verified.
 
 
-Image works with Mobile Trainer web browser, it supports the standard <img src=""> tag for parsing the images.
+Image works with Mobile Trainer web browser, it supports the `img src=""` tag for parsing the images.
 
 The maxum allowed image size is 144x96, the images MUST be saved as Bitmap/1BPP format.
