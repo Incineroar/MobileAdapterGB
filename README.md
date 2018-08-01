@@ -8,7 +8,7 @@ Code is super WIP, but to use it:
 Line 11:
 ```
 dns_server_replacement = {
-	#"gameboy.datacenter.ne.jp" : '127.0.0.1', # Change this IP with the IP of your server
+	"gameboy.datacenter.ne.jp" : '127.0.0.1', # Change this IP with the IP of your server
 	"mail.gbaa.dion.ne.jp" : b'127.0.0.1',
 	"pop.gbaa.dion.ne.jp" : b'127.0.0.1'
 }
@@ -22,9 +22,14 @@ If you're having issues, it's still a WIP so don't worry too much on this, at le
 See this thread on Glitch City Forums for more information on the Mobile Adapter GB, including uses, tech info, and more!
 https://forums.glitchcity.info/index.php?topic=7509.0
 
-Notes:
+### Notes
 Future-proof this by adding the following to your Apache httpd.conf:
 
 ```BrowserMatch (CGB-) force-response-1.0 downgrade-1.0```
 
 This will force Apache to serve Game Boy Color games with HTTP 1.0 instead of 1.1. This may also work with GBA by replacing CGB with AGB, but this needs further testing to be verified.
+
+
+Image works with Mobile Trainer web browser, it supports the standard <img src=""> tag for parsing the images.
+
+The maxum allowed image size is 144x96, the images MUST be saved as Bitmap/1BPP format.
