@@ -1,6 +1,6 @@
 # Tested HTML codes with Mobile Trainer Web Browser
 
-### Tested and working:
+### Supported tags:
  - Page Title
  - Lines (hr)
  - New lines (br)
@@ -8,12 +8,10 @@
  - Bold (change the text color to orange)
  - pre
  - Lists
-
-### What may work:
-  - Images
-
-### What does not work:
- - XHTML (<hr/> and <br/> is not readed)
+ - Images
+ 
+### Unsupported tags:
+ - XHTML (final shashes after tags are not reader)
  - bgcolor tag in body
  - Tables
  - Forms
@@ -27,6 +25,3 @@
  - Italic, Small, Big, Strong, Emphasis
  - ol start
  - CSS width, height
-
-### Image Note
-I tried with 
