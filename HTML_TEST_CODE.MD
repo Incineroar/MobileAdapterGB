@@ -1,4 +1,4 @@
-# Tested HTML codes with Mobile Trainer Web Browser
+# HTML tags with Mobile Trainer Web Browser
 
 ### Supported tags:
  - Page Title
