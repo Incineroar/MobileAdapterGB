@@ -11,7 +11,7 @@
  - Images
  
 ### Unsupported tags:
- - XHTML (final shashes after tags are not reader)
+ - XHTML (final shashes after tags are not readed)
  - bgcolor tag in body
  - Tables
  - Forms
