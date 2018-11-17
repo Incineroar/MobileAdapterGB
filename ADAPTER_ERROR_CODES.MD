@@ -8,6 +8,7 @@
 | 20-000  | Wrong or invalid Mobile center was selected                             |
 | 21-000  | Communication error?                                                    |
 | 25-000  | Mobile adapter not configured (use the Mobile Trainer to configure it)  |
+| 31-002  | Received error code from POP3 server                                    |
 | 32-000  | Unknown HTTP communication error                                        |
 | 32-XXX  | HTTP communication error (XXX is an HTTP error code)                    |
 | 33-000  | Communication error with mobile center                                  |
