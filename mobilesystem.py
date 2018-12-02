@@ -479,7 +479,7 @@ def craftResponsePacket():
             dion_server_socket.connect((dion_login_ip, dion_login_port))
             dion_server_socket.send(packet_data['data']) # Send username (gXXXXXXX) and password to DION login server
 		
-            if dion_socket.recv(1) == b'VERIFY OK': # Account verified!
+            if dion_socket.recv(10) == b'VERIFY OK': # Account verified!
                 print('<< 21 Logged in')
                 packet_data['data'] = bytearray(b'\x00')
             else:
