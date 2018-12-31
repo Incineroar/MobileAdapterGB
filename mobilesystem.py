@@ -32,9 +32,9 @@ from enum import Enum
 ## you can disable the DNS redirecting by removing the content of this dictionary.
 ## Do not completely remove the variable otherwise it the script will crash
 dns_server_replacement = {
-	"gameboy.datacenter.ne.jp" : '127.0.0.1',
-	"mail.gbaa.dion.ne.jp" : '127.0.0.1',
-	"pop.gbaa.dion.ne.jp" : '127.0.0.1'
+    "gameboy.datacenter.ne.jp" : '127.0.0.1',
+    "mail.srv1.dion.ne.jp" : '127.0.0.1',
+    "pop.srv1.dion.ne.jp" : '127.0.0.1',
 }
 
 ## This variables sets the DION login server IP and port used to authenticate the account
@@ -671,7 +671,7 @@ def craftInternalPOPResponse():
             pop_text = packet_data['data'][1:]
  
         if(pop_text.find(b'STAT') == 0 or pop_text.find(b'LIST 1') == 0):
-            response_text += ('+OK 0 0') # No email here
+            response_text += b'+OK 0 0' # No email here
         elif(pop_text.find(b'LIST ') == 0):
             response_text += b'-ERR\r\n'
         elif(pop_text.find(b'LIST') == 0):
