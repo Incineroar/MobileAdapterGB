@@ -1,4 +1,4 @@
-#!/usr/bin/env python
+﻿#!/usr/bin/env python
 # -*- coding: utf-8 -*-
 #
 # Mobile Apdater GB emulation script
@@ -163,6 +163,7 @@ smtp_text = bytearray()
 external_server_port = 0
 external_server_socket = None
 p2p_destination_ip = ""
+is_retr_command_received = False
 
 # This function translate the state into a text, used in verbose mode
 def AdapterStateToText(state):
