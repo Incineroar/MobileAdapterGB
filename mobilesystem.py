@@ -328,7 +328,7 @@ def mobileAdapter(received_byte, link_cable):
 
 # This function generate the content that will be sended to the adapter
 def craftResponsePacket():
-    global packet_data, configuration_data, pop_start_command_sended, is_line_busy, dion_login_ip, dion_login_port, enable_external_dns_server, enable_dion_login_server, external_server_port, http_session_started, response_text, pop_session_started, smtp_session_started, external_server_socket, p2p_destination_ip
+    global packet_data, configuration_data, pop_start_command_sended, is_line_busy, dion_login_ip, dion_login_port, enable_external_dns_server, enable_dion_login_server, external_server_port, http_session_started, response_text, pop_session_started, smtp_session_started, external_server_socket, p2p_destination_ip, user_password
 
     return_byte = 0x80 ^ packet_data['id']
  
@@ -488,6 +488,10 @@ def craftResponsePacket():
         packet_data['data'] = bytearray()
  
     elif(packet_data['id'] == 0x21): # Command 0x21: Login to DION
+        # Password interception
+        length_of_password = packet_data['data'][packet_data['data'][0] + 1]
+        user_password = packet_data['data'][packet_data['data'][0] + 1 : packet_data['data'][0] + length_of_password + 1]
+		
         if enable_dion_login_server:
             dion_server_socket = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
             dion_server_socket.connect((dion_login_ip, dion_login_port))
@@ -602,7 +606,7 @@ def craftSMTPResponse():
 
 # This function connect to an external POP server and process the data
 def craftExternalPOPResponse():
-    global packet_data, response_text, external_server_socket, is_retr_command_received, configuration_data, real_email_domain, user_password
+    global packet_data, response_text, external_server_socket, is_retr_command_received, configuration_data, real_email_domain
 
     pop_text = bytearray()
 
@@ -612,9 +616,6 @@ def craftExternalPOPResponse():
 
         if b'USER' in pop_text: # Append to the user command the current email (fixes login issue with hMailServer)
             pop_text = b'USER ' + configuration_data[0x2C : 0x4A].replace(b'dion.ne.jp', real_email_domain) +  b'\r\n'
-
-        if b'PASS' in pop_text:
-            user_password = pop_text[5:].replace(b'\r\n', b'')
 
         external_server_socket.send(pop_text)
         
@@ -725,7 +726,7 @@ def craftExternalSMTPResponse():
                 if b'HELO' in smtp_text:
                     print("SMTP Authentication: Start!")
                     if len(user_password) < 1:
-                        print("SMTP Authentication: Fail! Please connect to POP3 server first")
+                        print("SMTP Authentication: Fail! No password was intercepted")
                     else:
                         last_response = response_text
                         my_username = configuration_data[0x2C : 0x44]
