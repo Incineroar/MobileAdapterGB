@@ -2,13 +2,14 @@
 # -*- coding: utf-8 -*-
 #
 # Mobile Apdater GB emulation script
-# Version 1.3
+# Version 1.4
 #
 # the original script was created by Háčky.
 # the BGBLinkCable class was coded by TheZZAZZGlitch.
 # the code that filter the ip based of the login was coded by eintei95.
 # other changes were made by Arves100.
 #
+# Version 1.4:   Added SMTP authentication
 # Version 1.3:   Added ability to choose an emulated POP3 and HTTP server (useful when faking login)
 #                changed some variables name and added comments.
 # Version 1.2:   Added SMTP server code.
@@ -23,6 +24,7 @@ import random
 import threading
 import sys
 import os
+import base64
 from enum import Enum
 
 # This variables can be adjusted by the user
@@ -37,6 +39,10 @@ dns_server_replacement = {
     "pop.srv1.dion.ne.jp" : '127.0.0.1',
 }
 
+## This variable rapresents the real email server (without mail. or pop.) that will be replaced to
+## dion.ne.jp, this is usefull for those mail server that doesn't accept emails from dion.ne.jp
+real_email_domain = b"dion.ne.jp"
+
 ## This variables sets the DION login server IP and port used to authenticate the account
 ## of the adapter, if you want to enable/disable this functionality, please edit the value of
 ## the variable "enable_dion_login_server"
@@ -48,6 +54,12 @@ enable_dion_login_server = False
 ## and process SMTP/POP functionality used by the Trainer, otherwise it will use an internal
 ## emulation of the POP server that will allow the adapter to be fully configured
 enable_external_email_server = False
+
+## If this variable is enabled, after the HELO command, the script will try to authenticate
+## to the SMTP server.
+## NOTE: You need to perform POP3 authentication first, otherwise the script won't be able to
+## intercept the password
+require_smtp_authentication = False
 
 ## If this variable is enabled, the script will try to resolve domain name by using
 ## the system default DNS server
@@ -164,6 +176,7 @@ external_server_port = 0
 external_server_socket = None
 p2p_destination_ip = ""
 is_retr_command_received = False
+user_password = ""
 
 # This function translate the state into a text, used in verbose mode
 def AdapterStateToText(state):
@@ -589,7 +602,7 @@ def craftSMTPResponse():
 
 # This function connect to an external POP server and process the data
 def craftExternalPOPResponse():
-    global packet_data, response_text, external_server_socket, is_retr_command_received, configuration_data
+    global packet_data, response_text, external_server_socket, is_retr_command_received, configuration_data, real_email_domain, user_password
 
     pop_text = bytearray()
 
@@ -598,7 +611,10 @@ def craftExternalPOPResponse():
             pop_text = packet_data['data'][1:]
 
         if b'USER' in pop_text: # Append to the user command the current email (fixes login issue with hMailServer)
-            pop_text = b'USER ' + configuration_data[0x2C : 0x4A] +  b'\r\n'
+            pop_text = b'USER ' + configuration_data[0x2C : 0x4A].replace(b'dion.ne.jp', real_email_domain) +  b'\r\n'
+
+        if b'PASS' in pop_text:
+            user_password = pop_text[5:].replace(b'\r\n', b'')
 
         external_server_socket.send(pop_text)
         
@@ -689,7 +705,7 @@ def craftInternalPOPResponse():
 
 # This function connect to an external SMTP server and process the data
 def craftExternalSMTPResponse():
-    global packet_data, smtp_text, smtp_session_started, response_text, external_server_socket, smtp_status
+    global packet_data, smtp_text, smtp_session_started, response_text, external_server_socket, smtp_status, real_email_domain, require_smtp_authentication
     if(len(response_text) == 0):
         if(len(packet_data['data']) > 1):
             smtp_text += packet_data['data'][1:]
@@ -698,12 +714,37 @@ def craftExternalSMTPResponse():
 
         if(smtp_session_started):
             if len(smtp_text) > 1: # Send the content of the emails
+                if b'MAIL FROM' in smtp_text:
+                    smtp_text = smtp_text.replace(b'dion.ne.jp', real_email_domain)
+
                 external_server_socket.send(smtp_text)
-				
+
             if smtp_status == 0: # Receive a result
                 response_text = external_server_socket.recv(4096)
 			
-            if b'354 OK' in response_text:
+                if b'HELO' in smtp_text:
+                    print("SMTP Authentication: Start!")
+                    if len(user_password) < 1:
+                        print("SMTP Authentication: Fail! Please connect to POP3 server first")
+                    else:
+                        last_response = response_text
+                        my_username = configuration_data[0x2C : 0x44]
+                        chiocciola = my_username.find(b'@')
+                        my_username = my_username[:chiocciola]
+                        ## We're ready to send the authentication. Thanks nintendo
+                        external_server_socket.send(b'AUTH LOGIN\r\n')
+                        response_text = external_server_socket.recv(4096)
+                        print("SMTP Authentication: Response for AUTH LOGIN: " + response_text.decode("utf-8"))
+                        external_server_socket.send(base64.b64encode(my_username) + b'\r\n')
+                        response_text = external_server_socket.recv(4096)
+                        print("SMTP Authentication: Response for username: " + response_text.decode("utf-8"))
+                        external_server_socket.send(base64.b64encode(user_password) + b'\r\n')
+                        response_text = external_server_socket.recv(4096)
+                        print("SMTP Authentication: Response for password: " + response_text.decode("utf-8"))
+                        print("SMTP Authentication: Finish!")
+                        response_text = last_response
+                        ## TODO: Check results
+            if b'354 ' in response_text:
                 smtp_status = 1 # Status 1: Writing email to the server
             if b'\r\n.\r\n' in smtp_text:
                 smtp_status = 0
