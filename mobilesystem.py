@@ -1,7 +1,7 @@
 ﻿#!/usr/bin/env python
 # -*- coding: utf-8 -*-
 #
-# Mobile Apdater GB emulation script
+# Mobile Apdater GB emulator script
 # Version 1.4
 #
 # the original script was created by Háčky.
