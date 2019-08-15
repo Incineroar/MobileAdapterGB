@@ -30,28 +30,22 @@
     {
         if (file_exists($file))
         {
-            #check if the file exists, and if so, serve it.
-            #header('Content-Description: File Transfer');
-            #header('Content-Type: application/octet-stream');
-            #header('Content-Disposition: attachment; filename="'.basename($file).'"');
-            #header('Expires: 0');
-            #header('Cache-Control: must-revalidate');
-            #header('Pragma: public');
-            #header('Content-Length: ' . filesize($file));
-            header_remove();
-            readfile($file);
-            exit;
+            // If the file exists, serve it.
+            header_remove(); // Headers are the devil.
+            header("HTTP/1.0 200 OK");
+            readfile($file); // This puts the file into the output buffer.
+            exit; // Quit execution here, we're done!
         }
         else
         {
-            #else 404 not found.
+            // File not found, so 404!
             http_response_code(404);
             die();
         }
     }
     else
     {
-        #page string isn't valid, we'll just 404 to cover our butts.
+        // Invalid string, so we'll just automatically 404. Ideally, a 400 would be better here but 404 is smarter
         http_response_code(404);
         die();
     }

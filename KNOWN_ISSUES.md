@@ -21,3 +21,5 @@ For Pokémon Crystal, any headers will make /cgb/download requests fail (maybe o
 
 Apache can also do this, but both of them will leave some headers (Apache leaves Date, Nginx leaves Connection); again, hopefully the adapter script can help bypass this.
 
+
+/cgb/request downloads also fail if the line endings of the text file are not Windows. Use something like `dos2unix` on the server to fix this.
