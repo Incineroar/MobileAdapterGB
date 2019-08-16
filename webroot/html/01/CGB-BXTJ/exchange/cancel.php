@@ -8,7 +8,7 @@ if ($_SERVER['REQUEST_METHOD'] !== 'POST') {
     die("405 Method not Allowed"); // Exit but scarier!
 };
 
-$data = decodeExchange("php://input", true); // This makes a nice array of data.
+$data = decodeExchange("php://input", false); // This makes a nice array of data.
 $db = connectMySQL(); // Connect to DION Database!
 
 $stmt = $db->prepare("DELETE FROM `pkm_trades` WHERE email = ?;"); // Delete the trade from Database.
