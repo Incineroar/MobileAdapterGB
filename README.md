@@ -1,3 +1,5 @@
+# We have moved to https://github.com/REONTeam for our later work; please visit the organisation page for up to date info!
+
 # MobileAdapterGB
 A collection of scripts and written code to emulate the Mobile GB service.
 
