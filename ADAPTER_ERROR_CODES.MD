@@ -7,7 +7,7 @@
 | 15-000  | Unexpected data (The script sends this code when your adapter couldn't connect to a server) |
 | 20-000  | Wrong or invalid Mobile center was selected                                                 |
 | 21-000  | Communication error?                                                                        |
-| 24-000  | Invalid adapter configuration (eg: your adapter is marked as configured while it's being configurated) |
+| 24-000  | TCP connection fail (is this also for UDP?) |
 | 25-000  | Mobile adapter not configured (use the Mobile Trainer to configure it)                      |
 | 31-002  | Received error code from POP3 server                                                        |
 | 32-000  | Unknown HTTP communication error                                                            |
